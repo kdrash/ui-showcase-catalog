@@ -1,0 +1,123 @@
+import { lazy } from 'react'
+import type { DemoEntry } from '../../catalog/types'
+
+export const formDemos: DemoEntry[] = [
+  {
+    id: 'validated-signup',
+    title: 'バリデーション付き登録フォーム',
+    description: 'React Hook Form + Zod でリアルタイム検証する会員登録フォーム。パスワード強度メーター・表示切替・送信中→完了まで。',
+    category: 'form',
+    styles: ['shadcn', 'minimal'],
+    tech: ['rhf', 'zod', 'motion', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'React Hook Form と Zod(v4)で会員登録フォームを作って。スキーマは z.object で name / email(z.email)/ password(8文字以上・大文字・数字を regex で必須)/ confirm / terms(boolean を refine で true 必須)を定義し、.refine で password と confirm の一致を path:["confirm"] に出す。useForm に zodResolver(schema)・mode:"onTouched" を渡し、エラーメッセージは Motion の AnimatePresence で高さ0→auto にスライド表示、エラー時は入力枠を赤にする。useWatch で password を監視して4段階の強度メーター(色が赤→緑に変化)、目のアイコンで表示/非表示切替。送信中はスピナー付きボタン(isSubmitting)、成功時はチェックマークがバネで出る完了画面に切替。見た目は shadcn/ui 風(白カード・細いボーダー・focus リング)。',
+    file: 'forms/ValidatedSignup.tsx',
+    component: lazy(() => import('./ValidatedSignup').then((m) => ({ default: m.ValidatedSignup }))),
+    height: 440,
+  },
+  {
+    id: 'otp-input',
+    title: 'OTPコード入力',
+    description: 'input-otp による6桁ワンタイムコード入力。ペースト対応・偽キャレット・自動送信・失敗時のシェイク・再送信カウントダウン。',
+    category: 'form',
+    styles: ['dark', 'saas'],
+    tech: ['inputotp', 'motion', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'input-otp の OTPInput で2段階認証の6桁コード入力を作って。maxLength=6・pattern=REGEXP_ONLY_DIGITS、render プロップで slots を受け取り3桁+区切り線+3桁で描画する。各スロットは isActive でリング発光、hasFakeCaret で点滅キャレット、文字は下からフェードイン。onComplete で自動検証し、正解なら全スロットを緑に、不正解なら赤にして Motion の useAnimationControls で左右にシェイク。下に「0:30 後に再送信できます」のカウントダウンと再送信リンク。背景は濃紺のラジアルグラデーションのダークUI。',
+    file: 'forms/OtpInput.tsx',
+    component: lazy(() => import('./OtpInput').then((m) => ({ default: m.OtpInput }))),
+    height: 340,
+  },
+  {
+    id: 'date-range-picker',
+    title: '期間選択デイトピッカー',
+    description: 'React DayPicker の範囲選択を Radix Popover に入れた日付ピッカー。日本語ロケール・2ヶ月表示・「過去7日」等のプリセット付き。',
+    category: 'form',
+    styles: ['dark', 'shadcn'],
+    tech: ['daypicker', 'datefns', 'radix', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'react-day-picker の DayPicker を mode="range"・numberOfMonths={2}・locale={ja}(react-day-picker/locale)で使い、Radix の Popover(radix-ui)の中に入れた期間ピッカーを作って。トリガーボタンには date-fns の format(locale ja)で「2026/11/1 (日) 〜 2026/11/7 (土)」と日数バッジを表示。ポップオーバー上部に「今日・昨日・過去7日・過去30日・今月・先月」のプリセットボタン(subDays / startOfMonth / endOfMonth で計算)、下部に選択日数と「適用」ボタン(Popover.Close)。react-day-picker/style.css を読み込み、--rdp-accent-color などの CSS 変数でダークテーマ・紫アクセント・角丸8pxに上書きする。',
+    file: 'forms/DateRangePicker.tsx',
+    component: lazy(() => import('./DateRangePicker').then((m) => ({ default: m.DateRangePicker }))),
+    height: 460,
+  },
+  {
+    id: 'color-palette-picker',
+    title: 'カラーピッカー&パレット生成',
+    description: 'react-colorful で選んだ色から OKLCH で 50〜950 のカラースケールを自動生成。WCAG コントラスト判定と CSS 変数コピー付き。',
+    category: 'form',
+    styles: ['dark', 'minimal'],
+    tech: ['colorful', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'react-colorful の HexColorPicker と HexColorInput でブランドカラーを選び、その色から Tailwind 風の 50〜950 の11段階スケールを生成するツールを作って。色は sRGB→OKLab→OKLCH に変換し、色相と彩度を保ったまま明度だけを 0.97〜0.22 に振る(端は彩度を落として色域内に収める)。スケールのスウォッチをクリックすると、白背景・黒背景それぞれでのコントラスト比(WCAG 相対輝度で計算)と AAA / AA / AA Large / NG バッジを表示。下に :root { --brand-500: … } 形式の CSS 変数をコードブロックで出し、コピーボタンを付ける。プリセット色の丸ボタンも並べる。ダークUI。',
+    file: 'forms/ColorPalettePicker.tsx',
+    component: lazy(() => import('./ColorPalettePicker').then((m) => ({ default: m.ColorPalettePicker }))),
+    height: 360,
+  },
+  {
+    id: 'file-dropzone',
+    title: 'ファイルドロップゾーン',
+    description: 'react-dropzone のドラッグ&ドロップ受付。ドラッグ中の状態表示・種類別アイコン・画像プレビュー・擬似アップロード進捗・サイズ超過エラー。',
+    category: 'form',
+    styles: ['dark'],
+    tech: ['dropzone', 'motion', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'react-dropzone の useDropzone(noClick・maxSize 5MB)でファイルアップロード欄を作って。点線ボーダーのドロップエリアは isDragAccept で青・isDragReject で赤に変わり、ドラッグ中はクラウドアイコンが上下にふわふわ動く。「ファイルを選択」ボタンで open()。ドロップしたファイルはリストに追加し、画像は URL.createObjectURL でサムネイル(削除時・アンマウント時に revokeObjectURL)、それ以外は MIME に応じたアイコン。各行に擬似アップロードの進捗バー・%・ファイルサイズ・削除ボタン、完了で緑のチェック、サイズ超過は赤いエラー行。行の追加/削除は Motion の AnimatePresence + layout でアニメーション。',
+    file: 'forms/FileDropzone.tsx',
+    component: lazy(() => import('./FileDropzone').then((m) => ({ default: m.FileDropzone }))),
+    height: 380,
+  },
+  {
+    id: 'combobox-tags',
+    title: 'タグ入力コンボボックス',
+    description: 'Headless UI の Combobox(multiple)で作るタグ入力。絞り込み・新規タグ作成・チップ削除・Backspace 削除・キーボード操作に対応。',
+    category: 'form',
+    styles: ['minimal', 'shadcn'],
+    tech: ['headlessui', 'motion', 'react', 'tailwind', 'lucide'],
+    prompt:
+      '@headlessui/react の Combobox を multiple・immediate・by="id" で使ってタグ入力を作って。入力欄の中に選択済みタグをカラーチップで並べ(×で削除、Motion で拡大フェード)、ComboboxInput で絞り込み、一致するタグが無ければ先頭に「「〇〇」を新しいタグとして作成」の ComboboxOption を出して選ぶと作成&選択。入力が空のとき Backspace で最後のタグを削除。ComboboxOptions は transition と data-closed: で上からフェード、選択済みには data-selected でチェックアイコン、data-focus で背景色。下に「おすすめ」タグのワンクリック追加ボタン。明るいスレートのUI。',
+    file: 'forms/ComboboxTags.tsx',
+    component: lazy(() => import('./ComboboxTags').then((m) => ({ default: m.ComboboxTags }))),
+    height: 380,
+  },
+  {
+    id: 'credit-card-form',
+    title: 'クレジットカード入力',
+    description: '入力内容がリアルタイムにカードに反映され、CVC 入力時はカードが裏返る。ブランド判定・番号整形・有効期限/Luhn 検証付き。',
+    category: 'form',
+    styles: ['dark', 'skeuo'],
+    tech: ['motion', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'クレジットカード入力フォームと、入力がリアルタイムに反映されるカードプレビューを作って。番号の先頭からブランド(VISA=4 / Mastercard=51-55,22-27 / AMEX=34,37 / JCB=35)を判定してカードのグラデーションとロゴを切替、番号は4桁区切り(AMEXは4-6-5)に整形し未入力部分は•で表示。フォーカス中の項目をカード上で枠線ハイライトし、CVC にフォーカスすると Motion の rotateY:180 でカードが裏返って裏面の署名欄に CVC を表示(preserve-3d / backface-visibility:hidden)。有効期限は MM/YY 自動スラッシュ・過去日付はエラー、番号は Luhn チェック、全て正しいときだけ「¥12,800 を支払う」ボタンが有効になる。',
+    file: 'forms/CreditCardForm.tsx',
+    component: lazy(() => import('./CreditCardForm').then((m) => ({ default: m.CreditCardForm }))),
+    height: 340,
+  },
+  {
+    id: 'input-styles',
+    title: 'テキスト入力スタイル集',
+    description: 'フローティングラベル・アウトライン・フィルド・アニメ下線・ガラス・ニューモフィズム・アドオン・検索(⌘K)の8種類の入力欄。',
+    category: 'form',
+    styles: ['minimal', 'material', 'glass', 'neumorphism'],
+    tech: ['css', 'tailwind', 'react', 'lucide'],
+    prompt:
+      'Tailwind CSS だけで、テキスト入力欄のスタイル集を作って。(1)フローティングラベル:placeholder=" " と peer-placeholder-shown / peer-focus でラベルが上に縮む (2)Material の Outlined:ラベルが枠線の切り欠きに乗る (3)Filled:グレー背景+フォーカスで下線が中央から伸びる (4)アニメ下線:明朝体・フォーカスで左から黒線が伸びる (5)ガラス:カラフルな背景の上に backdrop-blur の入力欄 (6)ニューモフィズム:inset の二重シャドウで凹んだピル型 (7)https:// と .app のアドオン付き (8)検索アイコン+⌘K の kbd ヒント、入力するとクリアボタン。@container クエリで幅に応じて2列/4列に並べる。',
+    file: 'forms/InputStyles.tsx',
+    component: lazy(() => import('./InputStyles').then((m) => ({ default: m.InputStyles }))),
+    height: 360,
+    wide: true,
+  },
+  {
+    id: 'radix-sliders',
+    title: 'スライダー集 (価格帯・段階・縦)',
+    description: 'Radix Slider で作る、ヒストグラム付きの価格帯デュアルスライダー・目盛り付き段階スライダー・縦型の音量スライダー。',
+    category: 'form',
+    styles: ['dark'],
+    tech: ['radix', 'react', 'tailwind', 'lucide'],
+    prompt:
+      'Radix UI(radix-ui)の Slider で3種類のスライダーを作って。(1)価格帯:value を [min,max] の2つにしたデュアルサムで minStepsBetweenThumbs を指定、上に価格分布のヒストグラムを棒で描き範囲内の棒だけ色付け、サムのホバー/ドラッグ中に金額の吹き出し、下に最低/最高の金額ボックスと該当件数 (2)段階:step=1 の5段階(低/標準/高/最高/4K)で下に目盛りとラベル、ラベルクリックでも選択 (3)縦:orientation="vertical" の太い音量バーで、値に応じて lucide の Volume アイコンが変わり、クリックでミュート。Slider.Root / Track / Range / Thumb を Tailwind でダークUIに。',
+    file: 'forms/RadixSliders.tsx',
+    component: lazy(() => import('./RadixSliders').then((m) => ({ default: m.RadixSliders }))),
+    height: 360,
+  },
+]

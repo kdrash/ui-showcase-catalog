@@ -1,0 +1,113 @@
+import { lazy } from 'react'
+import type { DemoEntry } from '../../catalog/types'
+
+export const layoutDemos: DemoEntry[] = [
+  {
+    id: 'bento-grid',
+    title: 'Bento Grid',
+    description: 'Apple の製品ページ風に大小のタイルを敷き詰めたベントーグリッド。各タイルに小さなループアニメが入っています。',
+    category: 'layout',
+    styles: ['bento', 'minimal'],
+    tech: ['react', 'motion', 'tailwind', 'svg', 'lucide'],
+    prompt:
+      'Apple の製品ページ風の Bento Grid セクションを作ってください。CSS Grid(4列×3行)で col-span/row-span を使い、大きなメインタイル1つと小タイル複数を配置します。背景は #f5f5f7、タイルは白またはグラデーション、rounded-3xl と柔らかい影。Motion(motion/react) の variants + staggerChildren で順番にフェードアップ表示し、ホバーで y:-4 浮かせてください。タイル内には SVG リングの pathLength 描画、音楽イコライザーのバー、回転する太陽アイコン、パルスするリング、リアルタイム時計などの小さなループアニメを入れてください。',
+    file: 'layout/BentoGrid.tsx',
+    component: lazy(() => import('./BentoGrid').then((m) => ({ default: m.BentoGrid }))),
+    height: 420,
+    wide: true,
+  },
+  {
+    id: 'analytics-dashboard',
+    title: 'Analytics Dashboard',
+    description: 'Recharts を使ったダークテーマのアナリティクスダッシュボード。期間タブで全チャートとKPIがアニメーションしながら切り替わります。',
+    category: 'layout',
+    styles: ['dark'],
+    tech: ['react', 'recharts', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      'ダークテーマ(zinc-950 背景、白5%の細いボーダー、うっすら紫のグロー)の分析ダッシュボードを Recharts で作ってください。上部に 7D/30D/90D の期間タブ(Motion の layoutId で白いピルがスライド)、その下に KPI タイル4つ(数値は Motion の animate() でカウントアップ、増減率を緑/赤の矢印で表示、右側に小さな LineChart スパークライン)。メイン領域は グラデーション塗りの AreaChart(2系列)、積み上げ BarChart、ドーナツ型 PieChart(凡例付き)、RadialBarChart の目標達成率を配置。Tooltip もダークに合わせ、期間切替でデータが再生成されチャートがアニメーションするようにしてください。',
+    file: 'layout/AnalyticsDashboard.tsx',
+    component: lazy(() => import('./AnalyticsDashboard').then((m) => ({ default: m.AnalyticsDashboard }))),
+    height: 440,
+    wide: true,
+  },
+  {
+    id: 'gsap-horizontal-scroll',
+    title: 'Horizontal Scroll (GSAP)',
+    description: '縦スクロールするとセクションがピン留めされ、パネルが横に流れる GSAP ScrollTrigger の定番演出。',
+    category: 'scroll',
+    styles: ['dark', 'editorial'],
+    tech: ['react', 'gsap', 'tailwind'],
+    prompt:
+      'GSAP の ScrollTrigger を使って「縦スクロールで横に流れる」ピン留めセクションを作ってください。5枚のフルスクリーンパネルを横並びにし、gsap.to(panels, { xPercent: -100 * (n-1), ease: "none", scrollTrigger: { pin: true, scrub: 0.8, snap: 1/(n-1), end: () => "+=" + 幅*(n-1) } }) で横移動。containerAnimation を使って各パネル内の見出し(番号・英字・日本語)を下からマスクリビール、背景の巨大な番号はゆっくりパララックスさせてください。上部にスクロール進捗バー、デザインはダーク+パネルごとのアクセントカラー、フォントは Space Grotesk。React では useLayoutEffect 内で gsap.context() を使い、アンマウント時に ctx.revert() してください。',
+    file: 'layout/GsapHorizontalScroll.tsx',
+    component: lazy(() => import('./GsapHorizontalScroll').then((m) => ({ default: m.GsapHorizontalScroll }))),
+    height: 380,
+    wide: true,
+  },
+  {
+    id: 'scroll-reveal',
+    title: 'Scroll Reveal & Parallax',
+    description: 'Motion の useScroll でスクロール量に連動するプログレスバー・パララックス・フェードインをまとめたデモ。',
+    category: 'scroll',
+    styles: ['minimal'],
+    tech: ['react', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      'Motion(motion/react) でスクロール連動アニメーションのランディングページを作ってください。useScroll() の scrollYProgress を useSpring でなめらかにして画面上部のプログレスバー(scaleX)に使用。ヒーローではぼかした色付きの丸(blob)が useTransform でスクロールに応じて異なる速度で上に移動し、見出しは縮小しながらフェードアウト。機能紹介カードは whileInView で opacity 0→1、y 50→0、blur(8px)→0 でふわっと出現。さらに3列のカラムが target 指定の useScroll で異なる速度・方向に動くパララックスギャラリーを入れてください。白基調のミニマルデザイン。',
+    file: 'layout/ScrollReveal.tsx',
+    component: lazy(() => import('./ScrollReveal').then((m) => ({ default: m.ScrollReveal }))),
+    height: 360,
+  },
+  {
+    id: 'animated-timeline',
+    title: 'Animated Timeline',
+    description: 'スクロールに合わせて中央の線が伸び、イベントカードが左右からスライドインする縦タイムライン。',
+    category: 'layout',
+    styles: ['dark', 'aurora'],
+    tech: ['react', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      '会社の沿革用の縦タイムラインを作ってください。Motion の useScroll({ target, offset: ["start 70%", "end 60%"] }) の進捗で、紫→ピンク→シアンのグラデーション線(グロー付き)が上から伸びるように scaleY をアニメーション。各イベントはアイコン付きの丸ドットとガラス風カード(白4%背景・細ボーダー・backdrop-blur)で、whileInView でカードが左右からスライドイン、ドットがグレーから紫に点灯して外側にリングが出るようにしてください。狭い画面では線を左寄せ、広い画面ではコンテナクエリで左右交互配置。背景はダークにぼかした紫とシアンの光。',
+    file: 'layout/AnimatedTimeline.tsx',
+    component: lazy(() => import('./AnimatedTimeline').then((m) => ({ default: m.AnimatedTimeline }))),
+    height: 380,
+  },
+  {
+    id: 'pricing-toggle',
+    title: 'Pricing Table',
+    description: '月払い/年払いトグルで価格がカウントアニメーションする3プランの料金表。人気プランをグラデーション枠で強調。',
+    category: 'landing',
+    styles: ['minimal'],
+    tech: ['react', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      'SaaS の料金表セクションを作ってください。上部に「月払い / 年払い」のセグメントトグル(背景の黒いピルが Motion の layoutId でスライド)と、年払い選択時にポップインする「20% OFF」バッジ。3プラン(Starter / Pro / Team)のカードを横並びにし、価格は Motion の animate(motionValue, 新価格) でカウントアップ・ダウン。価格下の補足文は AnimatePresence mode="wait" で上下にスライドして入れ替え。中央の Pro はダーク背景+紫→ピンク→黄のグラデーション枠で強調し「人気」バッジを付け、全カードはホバーで少し浮かせてください。背景は薄いドットパターン。',
+    file: 'layout/PricingToggle.tsx',
+    component: lazy(() => import('./PricingToggle').then((m) => ({ default: m.PricingToggle }))),
+    height: 400,
+    wide: true,
+  },
+  {
+    id: 'app-shell-sidebar',
+    title: 'Collapsible App Shell',
+    description: '折りたたみ可能なサイドバーを持つ SaaS 管理画面のレイアウト。ナビのハイライトがスライドし、ページがフェードで切り替わります。',
+    category: 'layout',
+    styles: ['dark', 'minimal'],
+    tech: ['react', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      'Linear や Vercel のようなダークな SaaS 管理画面のアプリシェルを作ってください。左サイドバーは Motion で width を 176px⇔56px にスプリングで伸縮し、ラベルは AnimatePresence でフェード、折りたたみ時はホバーでツールチップを表示。アクティブなナビ項目の背景ハイライトは layoutId で項目間をスライド、未読バッジ付き。右側はヘッダー(パンくず・⌘K 検索ボックス・通知ベル)とメイン領域で、ナビ切替時に AnimatePresence mode="wait" でページをフェード切替。メイン領域は Tailwind のコンテナクエリ(@container)で幅に応じてカード列数を変えてください。アイコンは lucide-react。',
+    file: 'layout/AppShellSidebar.tsx',
+    component: lazy(() => import('./AppShellSidebar').then((m) => ({ default: m.AppShellSidebar }))),
+    height: 380,
+  },
+  {
+    id: 'masonry-gallery',
+    title: 'Masonry Gallery',
+    description: 'カテゴリで絞り込むと、タイルが新しい位置へスプリングで移動する Pinterest 風マソンリーギャラリー。',
+    category: 'layout',
+    styles: ['minimal', 'editorial'],
+    tech: ['react', 'motion', 'tailwind', 'lucide'],
+    prompt:
+      'Pinterest 風のマソンリーギャラリーを作ってください。ResizeObserver でコンテナ幅を測り列数(2〜4列)を決め、各アイテムを一番低い列に詰めて x/y 座標を計算する JS マソンリーにします。タイルは absolute 配置で、Motion の animate={{ x, y }} によりフィルター変更時に新しい位置へスプリング移動、AnimatePresence で消える/出るタイルはスケール+フェード。上部にカテゴリのフィルターチップ(選択中の黒いピルは layoutId でスライド)。ホバーでタイル下部にグラデーションのキャプションといいねボタン(タップで弾む)を表示。背景はオフホワイト #faf7f2。',
+    file: 'layout/MasonryGallery.tsx',
+    component: lazy(() => import('./MasonryGallery').then((m) => ({ default: m.MasonryGallery }))),
+    height: 380,
+  },
+]

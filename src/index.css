@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+  background: #09090b;
+}
+
+body {
+  margin: 0;
+  background: #09090b;
+  color: #e4e4e7;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(168 85 247 / 0.4);
+}
+
+/* catalog shell scrollbars */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 transparent;
+}
+
+.shell-aurora {
+  background:
+    radial-gradient(60% 80% at 10% 0%, rgb(168 85 247 / 0.25), transparent 60%),
+    radial-gradient(50% 70% at 90% 10%, rgb(34 211 238 / 0.18), transparent 60%),
+    radial-gradient(40% 60% at 50% 100%, rgb(244 114 182 / 0.15), transparent 60%);
+}
