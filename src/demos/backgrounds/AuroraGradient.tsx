@@ -32,7 +32,7 @@ const css = `
 @keyframes aurora-b { to { transform: translate(-30%, 35%) rotate(-30deg) scale(.85); } }
 @keyframes aurora-c { to { transform: translate(-20%, -30%) rotate(60deg) scale(1.15); } }
 @keyframes aurora-d { to { transform: translate(-40%, 30%) scale(1.4); } }
-@media (prefers-reduced-motion: reduce) { .aurora-blob { animation: none; } }
+@media (prefers-reduced-motion: reduce) { :root:not([data-motion=full]) .aurora-blob { animation: none; } } :root[data-motion=reduce] .aurora-blob { animation: none; }
 `
 
 export function AuroraGradient() {

@@ -2,6 +2,7 @@ import { Suspense, useEffect } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { DemoErrorBoundary, DemoFallback } from './helpers'
 import { LanguageSwitch } from './LanguageSwitch'
+import { MotionSwitch } from './MotionSwitch'
 import { useCatalogLanguage } from './i18n'
 import { demoText } from './localization'
 import { DEMOS } from './registry'
@@ -42,6 +43,7 @@ export function Solo({ id }: { id: string }) {
         </DemoErrorBoundary>
       </div>
       <div className="absolute right-3 bottom-3 z-[60] flex max-w-[calc(100%-1.5rem)] flex-wrap items-center justify-end gap-1.5">
+        <MotionSwitch />
         <LanguageSwitch />
         <a
           href={`?lang=${language}#${encodeURIComponent(demo.id)}`}

@@ -37,6 +37,12 @@ npm run build     # 型チェック + 本番ビルド
 
 Use **日本語 / English** at the top of the catalog, in the demo details, or on a full-screen demo. Choose **English prompts only** to find the 55 demos with English descriptions and prompts. The other demos include their original Japanese prompts.
 
+### デモの動き
+
+デモは OS の「動きを減らす」設定（`prefers-reduced-motion`）に従って、演出を控えめな表示に切り替えます。カタログ上部と単体ページの **デモの動き: OSに従う / フル演出 / 減らす** で、OS の設定に関係なくどちらかに固定できます。選択はブラウザに保存され、切り替えるとページを再読み込みします。`?motion=full` や `?motion=reduce` を付けたリンクでも指定できます。
+
+Use **Demo motion: System / Full / Reduced** at the top of the catalog or on a full-screen demo to override your system's reduced-motion setting. The choice is saved and the page reloads to apply it. Links can also use `?motion=full` or `?motion=reduce`.
+
 ## 使っている主なライブラリ
 
 | 分野 | ライブラリ |

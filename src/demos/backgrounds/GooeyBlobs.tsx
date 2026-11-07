@@ -24,7 +24,7 @@ const css = `
   50%  { transform: translateY(-10%) scale(1.1); }
   100% { top: -25%; transform: translateY(0) scale(.95); }
 }
-@media (prefers-reduced-motion: reduce) { .goo-blob { animation-duration: 60s; } }
+@media (prefers-reduced-motion: reduce) { :root:not([data-motion=full]) .goo-blob { animation-duration: 60s; } } :root[data-motion=reduce] .goo-blob { animation-duration: 60s; }
 `
 
 export function GooeyBlobs() {

@@ -1,3 +1,5 @@
+// 最初に読み込む: デモが prefers-reduced-motion を問い合わせる前に、カタログの「動き」設定を反映する
+import './catalog/motionPreference'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

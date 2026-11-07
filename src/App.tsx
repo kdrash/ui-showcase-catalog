@@ -6,6 +6,7 @@ import { CATEGORIES, STYLES, TECH } from './catalog/meta'
 import { DemoCard, StyleChip, TechBadge } from './catalog/DemoCard'
 import { DemoModal } from './catalog/DemoModal'
 import { LanguageSwitch } from './catalog/LanguageSwitch'
+import { MotionSwitch } from './catalog/MotionSwitch'
 import { useCatalogLanguage } from './catalog/i18n'
 import { categoryText, demoText, styleText, techText } from './catalog/localization'
 import { englishDemoCopy } from './catalog/locales/demos.en'
@@ -114,7 +115,10 @@ export function App() {
               </div>
             </div>
           </div>
-          <LanguageSwitch />
+          <div className="flex flex-col items-end gap-1.5">
+            <LanguageSwitch />
+            <MotionSwitch showHint />
+          </div>
         </div>
 
         <nav aria-label={t('navigation')} className="mt-6 grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 text-xs">

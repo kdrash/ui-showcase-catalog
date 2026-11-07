@@ -1,5 +1,30 @@
 @import 'tailwindcss';
 
+/*
+ * カタログの「デモの動き」切り替え(html[data-motion], src/catalog/motionPreference.ts)にも従う motion-safe / motion-reduce。
+ * data-motion="system" のときは従来どおり OS の prefers-reduced-motion に従う
+ */
+@custom-variant motion-safe {
+  :root[data-motion='full'] & {
+    @slot;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduce']) & {
+      @slot;
+    }
+  }
+}
+@custom-variant motion-reduce {
+  :root[data-motion='reduce'] & {
+    @slot;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :root:not([data-motion='full']) & {
+      @slot;
+    }
+  }
+}
+
 @theme {
   --font-sans: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;

@@ -1,6 +1,14 @@
 export const catalogMessages = {
   ja: {
     language: '表示言語',
+    motion: {
+      label: 'デモの動き',
+      system: 'OSに従う',
+      full: 'フル演出',
+      reduce: '減らす',
+      systemHint: 'OSの設定は「動きを減らす」です。フル演出を選ぶと本来のアニメーションで表示します。',
+      reloadNote: '切り替えるとページを再読み込みします',
+    },
     summary: '{{demos}} デモ · {{tech}} 技術 · {{styles}} スタイル',
     navigation: 'カタログのメニュー',
     views: {
@@ -62,6 +70,14 @@ export const catalogMessages = {
   },
   en: {
     language: 'Display language',
+    motion: {
+      label: 'Demo motion',
+      system: 'System',
+      full: 'Full',
+      reduce: 'Reduced',
+      systemHint: 'Your system asks for reduced motion. Choose Full to see the original animations.',
+      reloadNote: 'Switching reloads the page',
+    },
     summary: '{{demos}} demos · {{tech}} technologies · {{styles}} styles',
     navigation: 'Catalog navigation',
     views: {
