@@ -23,6 +23,7 @@ export type CategoryId =
   | 'chart'
   | 'creative'
   | 'retro'
+  | 'game'
   | 'style'
   | 'art-direction'
   | 'japanese-type'
@@ -174,6 +175,10 @@ export type StyleId =
   | 'zine'
   | 'wayfinding'
   | 'textile'
+  | 'stylishjrpg'
+  | 'monsterrpg'
+  | 'gamehud'
+  | 'novelgame'
 
 export interface DemoEntry {
   /** unique kebab-case id */

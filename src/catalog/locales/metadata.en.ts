@@ -23,6 +23,7 @@ export const englishCategories = {
   chart: ['Charts & Visualization', 'Charts, maps, globes, and heatmaps with D3, ECharts, and Chart.js'],
   creative: ['Creative Coding & Sound', '2D physics, generative art, synths, sequencers, and drawing tools'],
   retro: ['Retro OS & Games', 'Classic Windows and Mac, 8-bit consoles, flip phones, and terminals'],
+  game: ['Game UI', 'Transitions, battle screens, HUDs, menus, and summon effects inspired by well-known games, with original characters and assets'],
   style: ['Design Style Comparisons', 'The same interface expressed in different visual styles'],
   'art-direction': ['Art Direction', 'Give pages and posters a distinct look through composition, imagery, and type'],
   'japanese-type': ['Japanese Typography', 'Vertical text, ruby, and columns in Japanese editorial and advertising layouts'],
@@ -87,6 +88,10 @@ export const englishStyles = {
   zine: ['Photocopy Zine', 'Cut-and-paste headlines, halftones, copier streaks, folds, and fluorescent inks'],
   wayfinding: ['Public Wayfinding', 'Large arrows, route colors, platform numbers, bilingual labels, and a clear hierarchy'],
   textile: ['Weaving & Embroidery', 'Twill, satin stitch, seams, and directional thread sheen'],
+  stylishjrpg: ['Stylish JRPG (Persona-like)', 'Red, black, and white, tilted layouts, jagged cutouts, ransom-note lettering, halftone, and sharp transitions'],
+  monsterrpg: ['Handheld Monster RPG (Pokémon-like)', 'Rounded white panels, green-to-red HP bars, EXP bars, a bottom message box, a 2×2 command menu, and type colors'],
+  gamehud: ['Action Game HUD', 'Edge-anchored gauges, trailing damage bars, compass strips, minimaps, and large banner titles'],
+  novelgame: ['Visual Novel (ADV)', 'Translucent text box, name plate, click-to-continue marker, auto/skip/log, and choices'],
 } satisfies Record<StyleId, [name: string, keywords: string]>
 
 export const englishTechnologies = {

@@ -23,6 +23,7 @@ export const CATEGORIES: Record<CategoryId, { label: string; emoji: string; desc
   chart: { label: 'チャート・可視化', emoji: '📊', description: 'D3 / ECharts / Chart.js・地図・地球儀・ヒートマップ' },
   creative: { label: 'クリエイティブ・サウンド', emoji: '🎛️', description: '2D物理・ジェネラティブアート・シンセ/シーケンサー・描画ツール' },
   retro: { label: 'レトロOS・ゲーム風', emoji: '💾', description: 'Windows 98 / XP / 7、Mac、8bit、ガラケー、ターミナル風' },
+  game: { label: 'ゲームUI', emoji: '🎮', description: '有名ゲームを思わせる画面遷移・バトル画面・HUD・メニュー・ガチャ演出（キャラクターや素材はすべてオリジナル）' },
   style: { label: 'デザインスタイル比較', emoji: '🎨', description: '同じUIを異なるデザイン言語で表現' },
   'art-direction': { label: 'アートディレクション', emoji: '🖼️', description: '構図・図版・書体で、ページやポスターの世界観をつくる' },
   'japanese-type': { label: '日本語タイポグラフィ・組版', emoji: '📖', description: '縦横混植・ルビ・段組みを誌面や広告に落とし込む' },
@@ -767,4 +768,8 @@ export const STYLES: Record<StyleId, { name: string; keywords: string }> = {
   zine: { name: 'コピー誌・ZINE', keywords: '切り貼りした見出し・網点・コピーのかすれ・紙の折り目・蛍光インク' },
   wayfinding: { name: '公共サイン', keywords: '大きな矢印・路線色・番線番号・日英併記・離れて読める文字の階層' },
   textile: { name: '織り・刺繍', keywords: '布地の綾織り・サテンステッチ・縫い目・糸の方向による光沢' },
+  stylishjrpg: { name: 'スタイリッシュJRPG（ペルソナ風）', keywords: '赤×黒×白・斜めに傾いた構図・ギザギザの切り抜き・脅迫状風の文字・ハーフトーン・キレのある遷移' },
+  monsterrpg: { name: '携帯機モンスターRPG（ポケモン風）', keywords: '白い角丸パネル・緑→黄→赤のHPバー・EXPバー・下部のメッセージ窓・2×2のコマンド・タイプ色' },
+  gamehud: { name: 'アクションゲームHUD', keywords: '画面端に寄せたゲージ・遅れて減るダメージバー・コンパス・ミニマップ・大きな帯テロップ' },
+  novelgame: { name: 'ノベルゲーム（ADV）', keywords: '半透明のテキスト窓・名前枠・クリック待ちアイコン・オート/スキップ/ログ・選択肢' },
 }

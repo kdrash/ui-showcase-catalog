@@ -35,7 +35,7 @@ npm run build     # 型チェック + 本番ビルド
 
 上部の **日本語 / English** で切り替えられます。選択はブラウザに保存され、詳細モーダルと単体ページでも変更できます。英語で開くリンクには `?lang=en` を使います（例 `?lang=en#transition-directions`）。
 
-Use **日本語 / English** at the top of the catalog, in the demo details, or on a full-screen demo. Choose **English prompts only** to find the 37 demos with English descriptions and prompts. The other demos include their original Japanese prompts.
+Use **日本語 / English** at the top of the catalog, in the demo details, or on a full-screen demo. Choose **English prompts only** to find the 55 demos with English descriptions and prompts. The other demos include their original Japanese prompts.
 
 ## 使っている主なライブラリ
 
@@ -56,6 +56,8 @@ Use **日本語 / English** at the top of the catalog, in the demo details, or o
 - **モーションの演出比較**では、同じ画面の3つの遷移、Theatre.jsのブランドフィルム、Riveのポートレートを見られます。
 
 コピー誌、字間と行間の活字見本、器の材質と刺繍の見本、ヒーローの登場順と変形するロゴも収録しています。
+
+**ゲームUI**では、ペルソナ風のスラッシュ遷移・ポーズメニュー・弱点を突くバトルコマンド・総攻撃フィニッシュ・戦闘リザルト・日付送りのカレンダー・スマホのグループトーク・絆ランクアップ演出、ポケモン風の3Dバトル・エンカウント演出・図鑑・手持ち画面、ガチャ演出、ノベルゲームのADV画面、マス目に詰めるインベントリ、格闘ゲーム・ボス戦・オープンワールドのHUDを収録しています。画面構成や演出の型だけを参考にし、キャラクター・モンスター・名称はすべてオリジナルです。
 
 **エラー画面・復旧**では、紙の索引をモチーフにした404ページと、ブラウン管の放送中断をモチーフにした500ページを見られます。**公共端末・案内表示**では、券売機で切符を発券し、パタパタ式の出発案内の便や駅サインの方面を切り替えられます。
 

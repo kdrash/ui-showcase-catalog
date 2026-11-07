@@ -84,6 +84,9 @@ export function DemoCard({
       className={`group flex scroll-mt-24 flex-col overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/50 shadow-xl shadow-black/30 transition hover:border-white/20 ${
         demo.wide ? 'md:col-span-2' : ''
       }`}
+      // 画面外のカードはスタイル計算・レイアウト・描画を省く。Webフォントの読み込み完了などでページ全体が再レイアウトされても、
+      // 見えているカードの分だけで済む(カードが多いのでこれが無いと 100ms 以上固まることがある)
+      style={{ contentVisibility: 'auto', containIntrinsicSize: `auto ${(demo.height ?? 320) + 190}px` }}
     >
       <div className="border-b border-white/10">
         <DemoPreview demo={demo} />
