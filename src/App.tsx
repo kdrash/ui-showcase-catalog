@@ -114,11 +114,11 @@ export function App() {
             <div className="ml-auto flex items-center gap-0.5">
               <LanguageSwitch compact />
               <a
-                href="https://github.com/kdrash"
+                href="https://github.com/kdrash/ui-showcase-catalog"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub (@kdrash)"
-                title="GitHub (@kdrash)"
+                aria-label="GitHub (UI Showcase)"
+                title="GitHub (UI Showcase)"
                 className="grid size-8 shrink-0 place-items-center rounded-md text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 focus-visible:outline-2 focus-visible:outline-fuchsia-300"
               >
                 <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" className="size-3.5">
