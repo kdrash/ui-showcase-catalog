@@ -77,22 +77,3 @@ The project's original code and documentation are licensed under the [MIT Licens
 - Splineの作例は[公式サンプルシーン](https://github.com/splinetool/react-spline#usage)を読み込みます。シーンを取得できない場合はSVGのポスターを表示します。
 
 </details>
-
-## メンテナー向け / Maintainers
-
-<details>
-<summary>Cloudflare本番デプロイ / Production deployment</summary>
-
-[`npm run deploy`](scripts/deploy-cloudflare.mjs) は、このプロジェクトのCloudflareアカウントとWorkerを対象とするメンテナー用コマンドです。
-
-Node.js 22.20以降で `npm ci` を実行し、初回は対象のCloudflareアカウントでCLIにログインします。デプロイはクリーンな `main` から実行します。
-
-```bash
-npm exec --yes --package cf@1.0.0-beta.13 -- cf auth login
-npm run deploy -- --dry-run
-npm run deploy
-```
-
-ドライランは型チェック、ビルド、デプロイ設定の検証を行います。本番デプロイは新しいWorkerバージョンに切り替え、公開URLが今回のHTMLを返すことを確認します。
-
-</details>
