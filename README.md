@@ -11,6 +11,18 @@ npm run dev       # http://localhost:5173
 npm run build     # 型チェック + 本番ビルド
 ```
 
+## Cloudflareへのデプロイ
+
+Node.js 22.20以降と `npm ci` で準備します。初回は、公開先のCloudflareアカウントでCLIのログインを承認します。
+
+```bash
+npm exec --yes --package cf@1.0.0-beta.13 -- cf auth login
+npm run deploy -- --dry-run
+npm run deploy
+```
+
+`deploy` はクリーンな `main` で型チェックと本番ビルドを実行し、Cloudflare Workersに静的ファイルをアップロードします。新しいバージョンにトラフィックを切り替え、公開URLが今回のHTMLを返すところまで確認します。ドライランはビルドとCloudflareの設定検証を行います。GitHubへの反映とデプロイは別々に実行できます。
+
 ## 使い方
 
 - 左サイドバーで **カテゴリ / デザインスタイル / 使用技術** で絞り込み、キーワード検索もできます。

@@ -103,25 +103,37 @@ export function App() {
     <div className="min-h-screen lg:flex">
       {/* ───────── Sidebar ───────── */}
       <aside className="thin-scroll border-b border-white/10 bg-zinc-950/80 p-5 lg:sticky lg:top-0 lg:h-screen lg:w-72 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-b-0">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <div aria-hidden="true" className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-fuchsia-500 via-violet-500 to-cyan-400 text-lg shadow-lg shadow-fuchsia-500/30">
-              ✦
-            </div>
-            <div>
-              <div className="font-bold leading-tight tracking-tight">UI Showcase</div>
-              <div className="text-[11px] text-zinc-500">
-                {t('summary', { demos: DEMOS.length, tech: usedTech.length, styles: usedStyles.length })}
+        <header className="space-y-1">
+          <div className="flex flex-wrap items-center justify-between gap-x-2">
+            <div className="flex items-center gap-2">
+              <div aria-hidden="true" className="grid size-6 shrink-0 place-items-center rounded-md bg-violet-400/10 text-sm text-violet-300">
+                ✦
               </div>
+              <div className="text-sm font-semibold tracking-tight">UI Showcase</div>
+            </div>
+            <div className="ml-auto flex items-center gap-0.5">
+              <LanguageSwitch compact />
+              <a
+                href="https://github.com/kdrash"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub (@kdrash)"
+                title="GitHub (@kdrash)"
+                className="grid size-8 shrink-0 place-items-center rounded-md text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 focus-visible:outline-2 focus-visible:outline-fuchsia-300"
+              >
+                <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" className="size-3.5">
+                  <path d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656" />
+                </svg>
+              </a>
             </div>
           </div>
-          <div className="flex flex-col items-end gap-1.5">
-            <LanguageSwitch />
-            <MotionSwitch showHint />
-          </div>
-        </div>
+          <p className="text-[11px] leading-5 text-zinc-400">
+            {t('summary', { demos: DEMOS.length, tech: usedTech.length, styles: usedStyles.length })}
+          </p>
+          <MotionSwitch compact showHint />
+        </header>
 
-        <nav aria-label={t('navigation')} className="mt-6 grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 text-xs">
+        <nav aria-label={t('navigation')} className="mt-3 grid grid-cols-3 gap-1 border-b border-white/10 text-xs">
           {(
             [
               ['catalog', LayoutGrid],
@@ -134,15 +146,13 @@ export function App() {
               type="button"
               aria-pressed={view === k}
               onClick={() => setView(k)}
-              className={`relative flex items-center justify-center gap-1 rounded-lg py-1.5 transition ${
-                view === k ? 'text-white' : 'text-zinc-400 hover:text-zinc-200'
-              }`}
+              className="relative flex min-h-9 items-center justify-center gap-1 rounded-t-md px-1 text-zinc-400 transition hover:text-zinc-100 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-fuchsia-300 aria-pressed:text-zinc-100"
             >
               {view === k && (
-                <motion.span layoutId="view-pill" className="absolute inset-0 rounded-lg bg-white/10" />
+                <motion.span aria-hidden="true" layoutId="view-indicator" className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-violet-300/80" />
               )}
-              <Icon size={13} className="relative" />
-              <span className="relative">{t(`views.${k}.label`)}</span>
+              <Icon aria-hidden="true" size={13} className="shrink-0" />
+              <span>{t(`views.${k}.label`)}</span>
             </button>
           ))}
         </nav>
