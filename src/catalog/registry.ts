@@ -25,6 +25,10 @@ import { commerceDemos } from '../demos/commerce'
 import { creativeDemos } from '../demos/creative'
 import { designDemos } from '../demos/design'
 import { gameDemos } from '../demos/game'
+import { socialDemos } from '../demos/social'
+import { mediaDemos } from '../demos/media'
+import { communicationDemos } from '../demos/communication'
+import { productDemos } from '../demos/product'
 
 export const DEMOS: DemoEntry[] = [
   ...backgroundDemos,
@@ -35,6 +39,10 @@ export const DEMOS: DemoEntry[] = [
   ...layoutDemos,
   ...retroDemos,
   ...gameDemos,
+  ...socialDemos,
+  ...mediaDemos,
+  ...communicationDemos,
+  ...productDemos,
   ...styleDemos,
   ...sceneDemos,
   ...effectDemos,

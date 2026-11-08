@@ -12,6 +12,10 @@ export type CategoryId =
   | 'layout'
   | 'landing'
   | 'commerce'
+  | 'social'
+  | 'product'
+  | 'communication'
+  | 'media'
   | 'app'
   | 'form'
   | 'nav'
@@ -179,6 +183,10 @@ export type StyleId =
   | 'monsterrpg'
   | 'gamehud'
   | 'novelgame'
+  | 'microblog'
+  | 'forum'
+  | 'socialfeed'
+  | 'teamchat'
 
 export interface DemoEntry {
   /** unique kebab-case id */
@@ -201,4 +209,6 @@ export interface DemoEntry {
   wide?: boolean
   /** WebGL等の重いデモ。画面外でアンマウントする */
   heavy?: boolean
+  /** カタログに追加した日(YYYY-MM-DD)。一定期間「NEW」と表示し、新着順の並び替えに使う */
+  added?: string
 }

@@ -12,6 +12,10 @@ export const englishCategories = {
   layout: ['Layouts', 'Bento grids, dashboards, timelines, and galleries'],
   landing: ['Landing Page Sections', 'Heroes, features, testimonials, pricing, calls to action, and footers'],
   commerce: ['Commerce', 'Product cards, carts, galleries, and checkout'],
+  social: ['Social & Community', 'Timelines, forums, and news feeds inspired by X (Twitter), Reddit, and Facebook, with fictional services, users, and posts'],
+  product: ['Essential Product Screens', 'Sign-in, onboarding, settings, and profile screens that every product needs'],
+  communication: ['Communication & Collaboration', 'Team chat, email, video calls, and real-time multiplayer editing'],
+  media: ['Media & Players', 'Video players, music streaming apps, and other screens for watching and listening'],
   app: ['App UI & Tools', 'Kanban boards, data tables, node editors, and text and code editors'],
   form: ['Forms & Inputs', 'Validation, one-time codes, pickers, file drop zones, and autocomplete'],
   nav: ['Navigation', 'Mega menus, command palettes, context menus, and headers'],
@@ -92,6 +96,10 @@ export const englishStyles = {
   monsterrpg: ['Handheld Monster RPG (Pokémon-like)', 'Rounded white panels, green-to-red HP bars, EXP bars, a bottom message box, a 2×2 command menu, and type colors'],
   gamehud: ['Action Game HUD', 'Edge-anchored gauges, trailing damage bars, compass strips, minimaps, and large banner titles'],
   novelgame: ['Visual Novel (ADV)', 'Translucent text box, name plate, click-to-continue marker, auto/skip/log, and choices'],
+  microblog: ['Microblog (X/Twitter-like)', 'Three columns, short posts, a character-count ring, like, repost, and bookmark actions, thread lines, trends, and a new-posts pill'],
+  forum: ['Community Forum (Reddit-like)', 'A vote rail, scores, flair, sort tabs, collapsible nested comment threads, and a community sidebar'],
+  socialfeed: ['Social Network (Facebook-like)', 'Stories, a post composer, a reaction picker, nested comments, a contact list, and docked chat windows'],
+  teamchat: ['Team Chat (Slack/Discord-like)', 'A workspace rail, channel lists with unread badges, threads, mentions, reactions, and presence'],
 } satisfies Record<StyleId, [name: string, keywords: string]>
 
 export const englishTechnologies = {
