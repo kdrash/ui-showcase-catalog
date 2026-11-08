@@ -1,5 +1,6 @@
 import { Suspense, useState } from 'react'
-import { Check, Code2, Copy, Maximize2 } from 'lucide-react'
+import { Check, Code2, Copy, Heart, Maximize2 } from 'lucide-react'
+import { isNewDemo, toggleFavorite, useFavorites } from './favorites'
 import { DemoErrorBoundary, DemoFallback, LazyMount } from './helpers'
 import { useCatalogLanguage } from './i18n'
 import { demoText, styleText, techText } from './localization'
@@ -78,6 +79,8 @@ export function DemoCard({
   const copy = demoText(demo, language)
   const copied = copiedLanguage === copy.language
   const japaneseFallback = language === 'en' && copy.language === 'ja'
+  const favorite = useFavorites().has(demo.id)
+  const isNew = isNewDemo(demo.added)
   return (
     <article
       id={`demo-${demo.id}`}
@@ -94,18 +97,42 @@ export function DemoCard({
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 lang={copy.language} className="font-semibold tracking-tight text-zinc-50">{copy.title}</h3>
+            <h3 lang={copy.language} className="font-semibold tracking-tight text-zinc-50">
+              {isNew && (
+                <span className="mr-2 inline-block -translate-y-px rounded bg-emerald-400/15 px-1.5 py-0.5 align-middle font-mono text-[10px] font-bold tracking-wider text-emerald-300 ring-1 ring-emerald-400/30">
+                  {t('newBadge')}
+                </span>
+              )}
+              {copy.title}
+            </h3>
             <p lang={copy.language} className="mt-1 text-[13px] leading-relaxed text-zinc-400">{copy.description}</p>
             {japaneseFallback && <span className="mt-1 inline-block text-[10px] font-medium text-zinc-400">{t('japaneseContent')}</span>}
           </div>
-          <button
-            type="button"
-            onClick={onOpen}
-            title={t('openDetails')}
-            className="shrink-0 rounded-lg border border-white/10 p-2 text-zinc-400 transition hover:border-white/30 hover:text-white"
-          >
-            <Maximize2 size={15} />
-          </button>
+          <div className="flex shrink-0 gap-1.5">
+            <button
+              type="button"
+              aria-pressed={favorite}
+              aria-label={t(favorite ? 'favoriteRemove' : 'favoriteAdd')}
+              title={t(favorite ? 'favoriteRemove' : 'favoriteAdd')}
+              onClick={() => toggleFavorite(demo.id)}
+              className={`rounded-lg border p-2 transition focus-visible:outline-2 focus-visible:outline-fuchsia-300 ${
+                favorite
+                  ? 'border-rose-400/40 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20'
+                  : 'border-white/10 text-zinc-400 hover:border-white/30 hover:text-white'
+              }`}
+            >
+              <Heart size={15} fill={favorite ? 'currentColor' : 'none'} className={favorite ? 'motion-safe:animate-[fav-pop_320ms_ease-out]' : ''} />
+            </button>
+            <button
+              type="button"
+              onClick={onOpen}
+              title={t('openDetails')}
+              aria-label={t('openDetails')}
+              className="rounded-lg border border-white/10 p-2 text-zinc-400 transition hover:border-white/30 hover:text-white focus-visible:outline-2 focus-visible:outline-fuchsia-300"
+            >
+              <Maximize2 size={15} />
+            </button>
+          </div>
         </div>
         <div className="flex flex-wrap gap-1.5">
           {demo.tech.map((t) => (

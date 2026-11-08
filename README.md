@@ -1,6 +1,6 @@
 # UI Showcase Catalog
 
-触って試せるUIデザイン集。レトロな画面、ゲームUI、タイポグラフィ、モーションなどの作例を、実際に操作しながら比べられます。
+触って試せるUIデザイン集。レトロな画面、ゲームUI、SNS風の画面、タイポグラフィ、モーションなどの作例を、実際に操作しながら比べられます。
 
 An interactive catalog of UI patterns and visual styles, from retro interfaces to typography and motion.
 
@@ -17,6 +17,7 @@ An interactive catalog of UI patterns and visual styles, from retro interfaces t
 ## 使い方
 
 - カテゴリ、デザインスタイル、使用技術で絞り込めます。名前やキーワードでの検索もできます。
+- **新着** で最近追加したデモだけを表示できます。カードの ♡ で **お気に入り** に追加でき、並び順は **カテゴリ順 / 新着順 / 名前順** から選べます(お気に入りと並び順はブラウザに保存されます)。
 - デモの詳細を開くと、ソースコード、使用ライブラリ、再現用プロンプトが見られます。詳細のURLで共有でき、右上の ↗ からデモ単体を全画面で開けます。
 - カタログ上部の **JA / EN** で表示言語を切り替えられます。英語表示では **English prompts only** で英訳のあるデモを探せます。
 - **デモの動き** から **OSに従う / フル演出 / 減らす** を選べます。選択はブラウザに保存され、再読み込みで反映されます。共有リンクでは `?motion=full` や `?motion=reduce` で指定できます。
@@ -34,13 +35,15 @@ npm run dev
 
 ターミナルに表示されるローカルURLを開きます（既定は `http://localhost:5173`）。型チェックと本番用ビルドは `npm run build` で実行できます。
 
+全デモの表示確認は、ビルドしたカタログを `npx vite preview --port 4173` で開いた状態で `npm run test:demos` を実行します。各デモを順に開き、エラーが出たデモを一覧にします（初回は `npx playwright install chromium` が必要です）。GitHub では push と pull request のたびに、同じ確認が自動で実行されます。
+
 ## English
 
-Explore live demos of retro interfaces, game UI, typography, and motion. Filter the catalog by category, design style, or library. Open a demo to try it, inspect its source code, and copy a prompt for recreating it.
+Explore live demos of retro interfaces, game UI, social media layouts, typography, and motion. Filter the catalog by category, design style, or library. Open a demo to try it, inspect its source code, and copy a prompt for recreating it.
 
 **[Open the catalog in English](https://ui-showcase-catalog.kdrash.workers.dev/?lang=en)**
 
-The catalog interface is available in Japanese and English. Select **English prompts only** to find demos with translated descriptions and prompts. **Demo motion** lets you follow your system setting, enable full motion, or reduce motion.
+The catalog interface is available in Japanese and English. Select **English prompts only** to find demos with translated descriptions and prompts. **Demo motion** lets you follow your system setting, enable full motion, or reduce motion. Use **New** to see recently added demos, select ♡ on a card to add it to **Favorites**, and sort by category, newest, or name.
 
 ### Run locally
 
@@ -54,6 +57,8 @@ npm run dev
 ```
 
 Open the local URL shown in the terminal (usually `http://localhost:5173`). Run `npm run build` to type-check the project and create a production build.
+
+To check that every demo renders, serve the build with `npx vite preview --port 4173` and run `npm run test:demos`. It opens each demo in turn and lists any that fail (run `npx playwright install chromium` first). GitHub Actions runs the same check on every push and pull request.
 
 ## ライセンス / License
 

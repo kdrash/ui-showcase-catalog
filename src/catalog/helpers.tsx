@@ -117,7 +117,7 @@ export class DemoErrorBoundary extends Component<{ children: ReactNode }, { erro
 function DemoErrorMessage({ error }: { error: Error }) {
   const { t } = useCatalogLanguage()
   return (
-    <div className="grid h-full w-full place-items-center p-4 text-center text-xs text-red-400">
+    <div data-demo-error className="grid h-full w-full place-items-center p-4 text-center text-xs text-red-400">
       <div>
         <div className="mb-1 font-semibold">{t('demoError')}</div>
         <code className="break-all">{error.message}</code>

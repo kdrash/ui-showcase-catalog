@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.json --noEmit && vite build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "preview": "vite preview",
+    "test:demos": "node scripts/smoke-demos.mjs",
     "deploy": "node scripts/deploy-cloudflare.mjs"
   },
   "dependencies": {
@@ -125,6 +126,7 @@
     "@types/topojson-specification": "^1.0.5",
     "@types/zdog": "^1.1.7",
     "@vitejs/plugin-react": "^6.2.1",
+    "playwright": "^1.65.0",
     "tailwindcss": "^4.3.4",
     "typescript": "^7.0.2",
     "vite": "^8.3.6"

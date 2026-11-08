@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { BookOpen, Check, Copy, ExternalLink, LayoutGrid, Palette, Search, X } from 'lucide-react'
+import { ArrowDownUp, BookOpen, Check, ChevronDown, Copy, ExternalLink, LayoutGrid, Palette, Search, X } from 'lucide-react'
 import { DEMOS } from './catalog/registry'
 import { CATEGORIES, STYLES, TECH } from './catalog/meta'
 import { DemoCard, StyleChip, TechBadge } from './catalog/DemoCard'
@@ -11,14 +11,31 @@ import { useCatalogLanguage } from './catalog/i18n'
 import { categoryText, demoText, styleText, techText } from './catalog/localization'
 import { englishDemoCopy } from './catalog/locales/demos.en'
 import { copyText } from './catalog/prompt'
+import { isNewDemo, useFavorites } from './catalog/favorites'
 import type { CategoryId, StyleId, TechId } from './catalog/types'
 
 type View = 'catalog' | 'tech' | 'styles'
+/** サイドバーの絞り込み: カテゴリのほか「新着」「お気に入り」 */
+type Scope = CategoryId | 'all' | 'new' | 'favorites'
+type Sort = 'category' | 'newest' | 'name'
+
+const SORT_KEY = 'ui-showcase-sort'
+const isSort = (v: unknown): v is Sort => v === 'category' || v === 'newest' || v === 'name'
+function initialSort(): Sort {
+  try {
+    const saved = localStorage.getItem(SORT_KEY)
+    if (isSort(saved)) return saved
+  } catch {
+    // 保存できない環境ではカテゴリ順
+  }
+  return 'category'
+}
 
 const CATEGORY_IDS = Object.keys(CATEGORIES) as CategoryId[]
 const usedTech = (Object.keys(TECH) as TechId[]).filter((t) => DEMOS.some((d) => d.tech.includes(t)))
 const usedStyles = (Object.keys(STYLES) as StyleId[]).filter((s) => DEMOS.some((d) => d.styles.includes(s)))
 const englishDemos = DEMOS.filter((demo) => englishDemoCopy[demo.id])
+const newDemoIds = new Set(DEMOS.filter((d) => isNewDemo(d.added)).map((d) => d.id))
 
 function toggle<T>(set: Set<T>, v: T) {
   const n = new Set(set)
@@ -30,7 +47,17 @@ function toggle<T>(set: Set<T>, v: T) {
 export function App() {
   const { t, language } = useCatalogLanguage()
   const [view, setView] = useState<View>('catalog')
-  const [category, setCategory] = useState<CategoryId | 'all'>('all')
+  const [category, setCategory] = useState<Scope>('all')
+  const [sort, setSortState] = useState<Sort>(initialSort)
+  const favorites = useFavorites()
+  const setSort = (next: Sort) => {
+    setSortState(next)
+    try {
+      localStorage.setItem(SORT_KEY, next)
+    } catch {
+      // 保存できなくても今回の表示には反映する
+    }
+  }
   const [techFilter, setTechFilter] = useState<Set<TechId>>(new Set())
   const [styleFilter, setStyleFilter] = useState<Set<StyleId>>(new Set())
   const [query, setQuery] = useState('')
@@ -49,8 +76,12 @@ export function App() {
   const candidates = englishFilter ? englishDemos : DEMOS
   const filtered = useMemo(() => {
     const q = query.trim().normalize('NFKC').toLowerCase()
-    return candidates.filter((d) => {
-      if (category !== 'all' && d.category !== category) return false
+    const list = candidates.filter((d) => {
+      if (category === 'new') {
+        if (!newDemoIds.has(d.id)) return false
+      } else if (category === 'favorites') {
+        if (!favorites.has(d.id)) return false
+      } else if (category !== 'all' && d.category !== category) return false
       if (techFilter.size && !d.tech.some((t) => techFilter.has(t))) return false
       if (styleFilter.size && !d.styles.some((s) => styleFilter.has(s))) return false
       if (q) {
@@ -75,7 +106,19 @@ export function App() {
       }
       return true
     })
-  }, [candidates, category, techFilter, styleFilter, query])
+    if (sort === 'newest') {
+      // 追加日の新しい順。同じ日(や日付なし)はカタログの登録順を保つ
+      return list
+        .map((d, i) => ({ d, i }))
+        .sort((a, b) => (b.d.added ?? '').localeCompare(a.d.added ?? '') || a.i - b.i)
+        .map(({ d }) => d)
+    }
+    if (sort === 'name') {
+      const collator = new Intl.Collator(language, { numeric: true, sensitivity: 'base' })
+      return [...list].sort((a, b) => collator.compare(demoText(a, language).title, demoText(b, language).title))
+    }
+    return list
+  }, [candidates, category, techFilter, styleFilter, query, favorites, sort, language])
 
   const filterByTech = useCallback((t: TechId) => {
     setView('catalog')
@@ -90,7 +133,8 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
-  const hasFilter = category !== 'all' || techFilter.size > 0 || styleFilter.size > 0 || query !== '' || englishFilter
+  const hasOtherFilter = techFilter.size > 0 || styleFilter.size > 0 || query !== '' || englishFilter
+  const hasFilter = category !== 'all' || hasOtherFilter
   const clearAll = () => {
     setCategory('all')
     setTechFilter(new Set())
@@ -188,9 +232,23 @@ export function App() {
 
         <SectionLabel>{t('categories')}</SectionLabel>
         <div className="flex flex-wrap gap-1 lg:flex-col">
-          {(['all', ...CATEGORY_IDS] as const).map((c) => {
-            const count = c === 'all' ? candidates.length : candidates.filter((d) => d.category === c).length
-            const meta = c === 'all' ? undefined : categoryText(c, language)
+          {(['all', ...(newDemoIds.size ? (['new'] as const) : []), 'favorites', ...CATEGORY_IDS] as const).map((c) => {
+            const count =
+              c === 'all'
+                ? candidates.length
+                : c === 'new'
+                  ? candidates.filter((d) => newDemoIds.has(d.id)).length
+                  : c === 'favorites'
+                    ? candidates.filter((d) => favorites.has(d.id)).length
+                    : candidates.filter((d) => d.category === c).length
+            const meta = c === 'all' || c === 'new' || c === 'favorites' ? undefined : categoryText(c, language)
+            const label = meta
+              ? `${meta.emoji} ${meta.label}`
+              : c === 'new'
+                ? `🌱 ${t('newDemos')}`
+                : c === 'favorites'
+                  ? `♥ ${t('favorites')}`
+                  : `✨ ${t('all')}`
             const active = category === c
             return (
               <button
@@ -206,9 +264,7 @@ export function App() {
                   active ? 'bg-white/10 text-white' : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
                 }`}
               >
-                <span>
-                  {meta ? `${meta.emoji} ${meta.label}` : `✨ ${t('all')}`}
-                </span>
+                <span>{label}</span>
                 <span className="font-mono text-[11px] text-zinc-500">{count}</span>
               </button>
             )
@@ -272,6 +328,10 @@ export function App() {
           {view === 'catalog' && (
             <CatalogView
               demos={filtered}
+              grouped={sort === 'category' && category !== 'new' && category !== 'favorites'}
+              sort={sort}
+              onSort={setSort}
+              emptyMessage={category === 'favorites' && !hasOtherFilter ? t('noFavorites') : undefined}
               onOpen={setOpenId}
               onTech={filterByTech}
               onStyle={filterByStyle}
@@ -294,59 +354,102 @@ function SectionLabel({ children }: { children: ReactNode }) {
 
 function CatalogView({
   demos,
+  grouped,
+  sort,
+  onSort,
+  emptyMessage,
   onOpen,
   onTech,
   onStyle,
   onClear,
 }: {
   demos: typeof DEMOS
+  grouped: boolean
+  sort: Sort
+  onSort: (sort: Sort) => void
+  emptyMessage?: string
   onOpen: (id: string) => void
   onTech: (t: TechId) => void
   onStyle: (s: StyleId) => void
   onClear: () => void
 }) {
   const { t, language } = useCatalogLanguage()
+  const toolbar = (
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <span className="font-mono text-xs text-zinc-500">{t('resultCount', { count: demos.length })}</span>
+      <label className="inline-flex items-center gap-1.5 text-xs text-zinc-400">
+        <ArrowDownUp aria-hidden="true" size={13} />
+        <span>{t('sort.label')}</span>
+        <span className="relative inline-flex items-center">
+          <select
+            value={sort}
+            onChange={(event) => onSort(event.currentTarget.value as Sort)}
+            className="h-8 cursor-pointer appearance-none rounded-md border border-white/10 bg-zinc-900 pr-7 pl-2.5 font-medium text-zinc-200 hover:border-white/25 focus-visible:outline-2 focus-visible:outline-fuchsia-300"
+          >
+            {(['category', 'newest', 'name'] as const).map((option) => (
+              <option key={option} value={option}>
+                {t(`sort.${option}`)}
+              </option>
+            ))}
+          </select>
+          <ChevronDown aria-hidden="true" size={12} className="pointer-events-none absolute right-2" />
+        </span>
+      </label>
+    </div>
+  )
   if (!demos.length)
     return (
-      <div className="grid place-items-center py-24 text-center text-zinc-500">
-        <div>
-        {t('noResults')}
-          <button type="button" onClick={onClear} className="mt-3 block w-full text-sm text-fuchsia-300 underline">
-          {t('clearFilters')}
-          </button>
+      <>
+        {toolbar}
+        <div className="grid place-items-center py-24 text-center text-zinc-500">
+          <div className="max-w-sm">
+            {emptyMessage ?? t('noResults')}
+            {!emptyMessage && (
+              <button type="button" onClick={onClear} className="mt-3 block w-full text-sm text-fuchsia-300 underline">
+                {t('clearFilters')}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      </>
+    )
+  const grid = (list: typeof DEMOS) => (
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
+      {list.map((d) => (
+        <DemoCard key={d.id} demo={d} onOpen={() => onOpen(d.id)} onTech={onTech} onStyle={onStyle} />
+      ))}
+    </div>
+  )
+  if (!grouped)
+    return (
+      <>
+        {toolbar}
+        {grid(demos)}
+      </>
     )
   return (
-    <div className="space-y-14">
-      {CATEGORY_IDS.map((c) => {
-        const list = demos.filter((d) => d.category === c)
-        if (!list.length) return null
-        const meta = categoryText(c, language)
-        return (
-          <section key={c}>
-            <div className="mb-5 flex items-baseline gap-3">
-              <h2 className="text-xl font-bold tracking-tight">
-                {meta.emoji} {meta.label}
-              </h2>
-              <span className="font-mono text-xs text-zinc-500">{list.length}</span>
-              <span className="hidden text-sm text-zinc-500 sm:inline">— {meta.description}</span>
-            </div>
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 2xl:grid-cols-3">
-              {list.map((d) => (
-                <DemoCard
-                  key={d.id}
-                  demo={d}
-                  onOpen={() => onOpen(d.id)}
-                  onTech={onTech}
-                  onStyle={onStyle}
-                />
-              ))}
-            </div>
-          </section>
-        )
-      })}
-    </div>
+    <>
+      {toolbar}
+      <div className="space-y-14">
+        {CATEGORY_IDS.map((c) => {
+          const list = demos.filter((d) => d.category === c)
+          if (!list.length) return null
+          const meta = categoryText(c, language)
+          return (
+            <section key={c}>
+              <div className="mb-5 flex items-baseline gap-3">
+                <h2 className="text-xl font-bold tracking-tight">
+                  {meta.emoji} {meta.label}
+                </h2>
+                <span className="font-mono text-xs text-zinc-500">{list.length}</span>
+                <span className="hidden text-sm text-zinc-500 sm:inline">— {meta.description}</span>
+              </div>
+              {grid(list)}
+            </section>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

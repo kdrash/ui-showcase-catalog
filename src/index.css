@@ -25,6 +25,13 @@
   }
 }
 
+/* カードのお気に入りボタン */
+@keyframes fav-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
 @theme {
   --font-sans: 'Inter', 'Noto Sans JP', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
